@@ -17,3 +17,5 @@ typedef struct
 {
     pion plateau[LIGNE][COLONNE];
 } game;
+
+int a;
