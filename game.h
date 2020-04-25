@@ -18,6 +18,12 @@ typedef struct
     int blanc;
 } game;
 
+typedef struct
+{
+    int coordX;
+    int coordY;
+} coup;
+
 
 // FONCTIONS
 
@@ -29,3 +35,6 @@ void afficher_plateau(game plateau);
 
 int position_gagnante(game plateau);
 
+int coup_valide(game plateau, coup coup_);
+
+coup coup_ordinateur(game plateau);
