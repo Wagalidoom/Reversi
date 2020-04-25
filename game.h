@@ -3,17 +3,10 @@
 #define LIGNE 8
 #define COLONNE 8
 
-// STRUCTURE
-typedef enum
-{
-    VIDE,
-    BLANC,
-    NOIR
-} state;
-
+// STRUCTURES
 typedef struct
 {
-    state pion;
+    char pion;
     int coordX;
     int coordY;
 } case_;
@@ -25,8 +18,14 @@ typedef struct
     int blanc;
 } game;
 
-// init plateau
+
+// FONCTIONS
+
+// initialisation du plateau avec les 4 pions centraux
 game init_plateau();
+
+// afficher plateau
+void afficher_plateau(game plateau);
 
 int position_gagnante(game plateau);
 
