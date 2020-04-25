@@ -11,10 +11,10 @@ typedef struct
     int color;
     int coordX;
     int coordY;
-} pion;
+} case_;
 
 typedef struct
 {
-    pion plateau[LIGNE][COLONNE];
+    case_ plateau[LIGNE][COLONNE];
 } game;
 
