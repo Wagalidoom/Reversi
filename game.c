@@ -12,12 +12,10 @@ game init_plateau()
             plateau.plateau_tab[i][j].pion = VIDE;
             plateau.plateau_tab[i][j].coordX = i;
             plateau.plateau_tab[i][j].coordY = j;
-
-            if ((i == 4) && (j==4)){
-                plateau.plateau_tab[i][j].pion = BLANC; //ETC
             }
-
-        }
-
     }
+    plateau.plateau_tab[3][3].pion, plateau.plateau_tab[4][4].pion = BLANC;
+    plateau.plateau_tab[3][4].pion, plateau.plateau_tab[4][3].pion = NOIR;
+    
+    return plateau;
 }
