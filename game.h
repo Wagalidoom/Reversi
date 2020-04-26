@@ -4,6 +4,26 @@
 #define COLONNE 8
 
 // STRUCTURES
+
+typedef enum
+{
+    HAUT,
+    BAS,
+    GAUCHE,
+    DROITE,
+    DIAG_HD,
+    DIAG_BD,
+    DIAG_HG,
+    DIAG_BG,
+} direction;
+
+typedef enum
+{
+    VIDE,
+    NOIR,
+    BLANC,
+} joueur;
+
 typedef struct
 {
     char pion;
@@ -16,6 +36,7 @@ typedef struct
     case_ plateau_tab[LIGNE][COLONNE];
     int noir;
     int blanc;
+    joueur current_player;
 } game;
 
 typedef struct
@@ -36,5 +57,9 @@ void afficher_plateau(game plateau);
 int position_gagnante(game plateau);
 
 int coup_valide(game plateau, coup coup_);
+
+int case_existe(case_ case_actuelle, direction dir);
+
+void check_direction(game plateau, coup coup_, direction dir);
 
 coup coup_ordinateur(game plateau);
