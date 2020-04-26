@@ -40,12 +40,6 @@ typedef struct
     joueur current_player;
 } game;
 
-typedef struct
-{
-    int coordX;
-    int coordY;
-} coup;
-
 
 // FONCTIONS
 
@@ -57,10 +51,10 @@ void afficher_plateau(game plateau);
 
 int position_gagnante(game plateau);
 
-int coup_valide(game plateau, coup coup_);
+int coup_valide(game plateau, case_ coup);
 
 int case_existe(case_ case_actuelle, direction dir);
 
 char check_direction(game plateau, case_ case_actuelle, direction dir, int isValid);
 
-coup coup_ordinateur(game plateau);
+case_ coup_ordinateur(game plateau);

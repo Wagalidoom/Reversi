@@ -38,20 +38,20 @@ void afficher_plateau(game plateau)
     printf("    A B C D E F G H\n");
 }
 
-int coup_valide(game plateau, coup coup_)
+int coup_valide(game plateau, case_ coup_act)
 {
     joueur joueur_ = plateau.current_player;
     char adversaire_c;
     char joueur_c;
-    int coordX = coup_.coordX;
-    int coordY = coup_.coordY;
+    int coordX = coup_act.coordX;
+    int coordY = coup_act.coordY;
     int case_adverse;
-    if (!case_existe(coup_, AUCUNE))
+    if (!case_existe(coup_act, AUCUNE))
     {
-        return FALSE
+        return false;
     }
-    char actual_case = plateau.plateau_tab[coordX][coordY].pion;
-    if (actual_case != '.')
+    char valeur_case = plateau.plateau_tab[coordX][coordY].pion;
+    if (valeur_case != '.')
     {
         return false;
     }
@@ -68,10 +68,10 @@ int coup_valide(game plateau, coup coup_)
     int isValid = 0;
     direction dir[8] = {HAUT, BAS, GAUCHE, DROITE, DIAG_HD, DIAG_BD, DIAG_HG, DIAG_BG};
 
-    for (direction dir_ = HAUT; dir <= DIAG_BG; dir_++)
+    for (direction dir = HAUT; dir <= DIAG_BG; dir++)
     {
         case_adverse = 0;
-        if (case_existe(plateau.plateau_tab[coordX][coordY], dir_))
+        if (case_existe(plateau.plateau_tab[coordX][coordY], dir))
         {
             do
             {
@@ -112,7 +112,7 @@ int coup_valide(game plateau, coup coup_)
                 }
                 case_adverse++;
 
-            } while (case_existe(plateau.plateau_tab[coordX][coordY], dir_) && plateau.plateau_tab[coordX][coordY].pion == adversaire_c);
+            } while (case_existe(plateau.plateau_tab[coordX][coordY], dir) && plateau.plateau_tab[coordX][coordY].pion == adversaire_c);
 
             if(case_adverse!=1 && plateau.plateau_tab[coordX][coordY].pion == joueur_c){
                 isValid = 1;
@@ -162,7 +162,8 @@ int case_existe(case_ case_actuelle, direction dir)
         break;
 
     default:
-        printf("Erreur sur la vérifiction du déplacement");
+        deplacement_x = 0;
+        deplacement_y = 0;
         break;
     }
 
