@@ -15,6 +15,7 @@ typedef enum
     DIAG_BD,
     DIAG_HG,
     DIAG_BG,
+    AUCUNE,
 } direction;
 
 typedef enum
@@ -60,6 +61,6 @@ int coup_valide(game plateau, coup coup_);
 
 int case_existe(case_ case_actuelle, direction dir);
 
-void check_direction(game plateau, coup coup_, direction dir);
+char check_direction(game plateau, case_ case_actuelle, direction dir, int isValid);
 
 coup coup_ordinateur(game plateau);

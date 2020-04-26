@@ -1,5 +1,6 @@
 #include "game.h"
-//#include <stdio.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 game init_plateau()
 {
@@ -40,33 +41,136 @@ void afficher_plateau(game plateau)
 int coup_valide(game plateau, coup coup_)
 {
     joueur joueur_ = plateau.current_player;
+    char adversaire_c;
+    char joueur_c;
     int coordX = coup_.coordX;
     int coordY = coup_.coordY;
+    int case_adverse;
+    if (!case_existe(coup_, AUCUNE))
+    {
+        return FALSE
+    }
     char actual_case = plateau.plateau_tab[coordX][coordY].pion;
+    if (actual_case != '.')
+    {
+        return false;
+    }
+    if (joueur_ == BLANC)
+    {
+        adversaire_c = 'N';
+        joueur_c = 'B';
+    }
+    else
+    {
+        adversaire_c = 'B';
+        joueur_c = 'N';
+    }
+    int isValid = 0;
     direction dir[8] = {HAUT, BAS, GAUCHE, DROITE, DIAG_HD, DIAG_BD, DIAG_HG, DIAG_BG};
 
-    for (direction dir_ = HAUT; dir <= DIAG_BG; dir_++){
-
-    }
-
-
-    if ((plateau.plateau_tab[coordX - 1][coordY].pion != actual_case) && (plateau.plateau_tab[coordX - 1][coordY].pion != '.'))
+    for (direction dir_ = HAUT; dir <= DIAG_BG; dir_++)
     {
-        //check_direction(plateau, coup, GAUCHE);
+        case_adverse = 0;
+        if (case_existe(plateau.plateau_tab[coordX][coordY], dir_))
+        {
+            do
+            {
+                switch (dir)
+                {
+                case HAUT:
+                    coordY--;
+                    break;
+                case BAS:
+                    coordY++;
+                    break;
+                case GAUCHE:
+                    coordX--;
+                    break;
+                case DROITE:
+                    coordX++;
+                    break;
+                case DIAG_HD:
+                    coordX++;
+                    coordY--;
+                    break;
+                case DIAG_BD:
+                    coordX++;
+                    coordY++;
+                    break;
+                case DIAG_HG:
+                    coordX--;
+                    coordY--;
+                    break;
+                case DIAG_BG:
+                    coordX--;
+                    coordY++;
+                    break;
+
+                default:
+                    printf("Erreur sur la vérifiction du déplacement");
+                    break;
+                }
+                case_adverse++;
+
+            } while (case_existe(plateau.plateau_tab[coordX][coordY], dir_) && plateau.plateau_tab[coordX][coordY].pion == adversaire_c);
+
+            if(case_adverse!=1 && plateau.plateau_tab[coordX][coordY].pion == joueur_c){
+                isValid = 1;
+
+            }
+        }
+    }
+    return isValid;
+}
+
+int case_existe(case_ case_actuelle, direction dir)
+{
+    int deplacement_x, deplacement_y, new_x, new_y;
+    switch (dir)
+    {
+    case HAUT:
+        deplacement_x = 0;
+        deplacement_y = -1;
+        break;
+    case BAS:
+        deplacement_x = 0;
+        deplacement_y = 1;
+        break;
+    case GAUCHE:
+        deplacement_x = -1;
+        deplacement_y = 0;
+        break;
+    case DROITE:
+        deplacement_x = 1;
+        deplacement_y = 0;
+        break;
+    case DIAG_HD:
+        deplacement_x = 1;
+        deplacement_y = -1;
+        break;
+    case DIAG_BD:
+        deplacement_x = 1;
+        deplacement_y = 1;
+        break;
+    case DIAG_HG:
+        deplacement_x = -1;
+        deplacement_y = -1;
+        break;
+    case DIAG_BG:
+        deplacement_x = -1;
+        deplacement_y = 1;
+        break;
+
+    default:
+        printf("Erreur sur la vérifiction du déplacement");
+        break;
     }
 
-    if ((plateau.plateau_tab[coordX + 1][coordY].pion != actual_case) && (plateau.plateau_tab[coordX + 1][coordY].pion != '.'))
+    new_x = case_actuelle.coordX + deplacement_x;
+    new_y = case_actuelle.coordY + deplacement_y;
+    if ((new_x < 0) || (new_x > LIGNE) || (new_y < 0) || (new_y > COLONNE))
     {
-        //check_direction(plateau, coup, DROITE);
+        return false;
     }
-
-    if ((plateau.plateau_tab[coordX][coordY-1].pion != actual_case) && (plateau.plateau_tab[coordX][coordY-1].pion != '.'))
-    {
-        //check_direction(plateau, coup, HAUT);
-    }
-
-    if ((plateau.plateau_tab[coordX][coordY+1].pion != actual_case) && (plateau.plateau_tab[coordX][coordY+1].pion != '.'))
-    {
-        //check_direction(plateau, coup, BAS);
-    }
+    return true;
 }
