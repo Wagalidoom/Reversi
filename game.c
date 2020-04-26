@@ -38,22 +38,25 @@ void afficher_plateau(game plateau)
     printf("    A B C D E F G H\n");
 }
 
-int coup_valide(game plateau, case_ coup_act)
+game jouer_coup(game plateau, case_ coup_act)
 {
-    joueur joueur_ = plateau.current_player;
+    int joueur_ = plateau.current_player;
     char adversaire_c;
     char joueur_c;
     int coordX = coup_act.coordX;
     int coordY = coup_act.coordY;
-    int case_adverse;
+    int deplacement_x, deplacement_y;
+    int taille_prise;
     if (!case_existe(coup_act, AUCUNE))
     {
-        return false;
+        printf("La case n'existe pas, rejouez");
+        return plateau;
     }
     char valeur_case = plateau.plateau_tab[coordX][coordY].pion;
     if (valeur_case != '.')
     {
-        return false;
+        printf("Case non vide, rejouez");
+        return plateau;
     }
     if (joueur_ == BLANC)
     {
@@ -67,60 +70,82 @@ int coup_valide(game plateau, case_ coup_act)
     }
     int isValid = 0;
     direction dir[8] = {HAUT, BAS, GAUCHE, DROITE, DIAG_HD, DIAG_BD, DIAG_HG, DIAG_BG};
-
-    for (direction dir = HAUT; dir <= DIAG_BG; dir++)
-    {
-        case_adverse = 0;
-        if (case_existe(plateau.plateau_tab[coordX][coordY], dir))
+    direction dir_act;
+    for (dir_act = HAUT; dir_act <= DIAG_BG; dir_act++)
+    {   
+        coordX = coup_act.coordX;
+        coordY = coup_act.coordY;
+        taille_prise = 0;
+        if (case_existe(plateau.plateau_tab[coordX][coordY], dir_act))
         {
             do
             {
-                switch (dir)
+                switch (dir_act)
                 {
                 case HAUT:
-                    coordY--;
+                    deplacement_x = 0;
+                    deplacement_y = -1;
                     break;
                 case BAS:
-                    coordY++;
+                    deplacement_x = 0;
+                    deplacement_y = 1;
                     break;
                 case GAUCHE:
-                    coordX--;
+                    deplacement_x = -1;
+                    deplacement_y = 0;
                     break;
                 case DROITE:
-                    coordX++;
+                    deplacement_x = 1;
+                    deplacement_y = 0;
                     break;
                 case DIAG_HD:
-                    coordX++;
-                    coordY--;
+                    deplacement_x = 1;
+                    deplacement_y = -1;
                     break;
                 case DIAG_BD:
-                    coordX++;
-                    coordY++;
+                    deplacement_x = 1;
+                    deplacement_y = 1;
                     break;
                 case DIAG_HG:
-                    coordX--;
-                    coordY--;
+                    deplacement_x = -1;
+                    deplacement_y = -1;
                     break;
                 case DIAG_BG:
-                    coordX--;
-                    coordY++;
+                    deplacement_x = -1;
+                    deplacement_y = 1;
                     break;
 
                 default:
-                    printf("Erreur sur la vérifiction du déplacement");
+                    deplacement_x = 0;
+                    deplacement_y = 0;
                     break;
                 }
-                case_adverse++;
 
-            } while (case_existe(plateau.plateau_tab[coordX][coordY], dir) && plateau.plateau_tab[coordX][coordY].pion == adversaire_c);
+                coordX += deplacement_x;
+                coordY += deplacement_y;
+                taille_prise++;
 
-            if(case_adverse!=1 && plateau.plateau_tab[coordX][coordY].pion == joueur_c){
+            } while (case_existe(plateau.plateau_tab[coordX][coordY], dir_act) && plateau.plateau_tab[coordX][coordY].pion == adversaire_c);
+
+            if(taille_prise>1 && plateau.plateau_tab[coordX][coordY].pion == joueur_c){
                 isValid = 1;
-
+                coordX = coup_act.coordX;
+                coordY = coup_act.coordY;
+                int i;
+                for (i = 0; i < taille_prise; i++){
+                    plateau.plateau_tab[coordX][coordY].pion = joueur_c;
+                    coordX += deplacement_x;
+                    coordY += deplacement_y;
+                }
             }
         }
     }
-    return isValid;
+    if (isValid){
+        plateau.current_player = -joueur_;
+    } else {
+        printf("Votre coup ne permet pas de prendre de pièces, rejouez");
+    }
+    return plateau;
 }
 
 int case_existe(case_ case_actuelle, direction dir)

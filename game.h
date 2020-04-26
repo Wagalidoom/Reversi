@@ -1,5 +1,6 @@
 // DEFINE
-
+#define BLANC 1
+#define NOIR 0
 #define LIGNE 8
 #define COLONNE 8
 
@@ -18,13 +19,6 @@ typedef enum
     AUCUNE,
 } direction;
 
-typedef enum
-{
-    VIDE,
-    NOIR,
-    BLANC,
-} joueur;
-
 typedef struct
 {
     char pion;
@@ -37,7 +31,7 @@ typedef struct
     case_ plateau_tab[LIGNE][COLONNE];
     int noir;
     int blanc;
-    joueur current_player;
+    int current_player;
 } game;
 
 
@@ -51,7 +45,7 @@ void afficher_plateau(game plateau);
 
 int position_gagnante(game plateau);
 
-int coup_valide(game plateau, case_ coup);
+game jouer_coup(game plateau, case_ coup);
 
 int case_existe(case_ case_actuelle, direction dir);
 
