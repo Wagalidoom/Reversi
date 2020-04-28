@@ -48,7 +48,8 @@ int main()
 	do
 	{
 		printf("Quelle couleur voulez vous prendre ? (NOIR commence)\n1 : NOIR		2 : BLANC\n");
-	} while (((scanf("%d%c", &n_b, &c)!=2 || c!='\n') && clean_stdin()) || n_b != 1 && n_b != 2);
+		scanf("%d", &n_b);
+	} while (n_b !=1 && n_b !=2);
 
 	afficher_plateau(jeu);
 
