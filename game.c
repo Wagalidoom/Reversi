@@ -12,9 +12,9 @@ game init_plateau()
     plateau.noir = 0;
     plateau.blanc = 0;
 
-    for (i = 0; i < COLONNE; i++)
+    for (j = 0; j < COLONNE; j++)
     {
-        for (j = 0; j < LIGNE; j++)
+        for (i = 0; i < LIGNE; i++)
         {
             plateau.plateau_tab[i][j].pion = '.';
             plateau.plateau_tab[i][j].coordX = i;
@@ -35,7 +35,7 @@ void afficher_plateau(game plateau)
     printf("   ________________ \n");
     for (i = 0; i < LIGNE; i++)
     {
-        printf("%d | %c %c %c %c %c %c %c %c|\n", i + 1, plateau.plateau_tab[i][0].pion, plateau.plateau_tab[i][1].pion, plateau.plateau_tab[i][2].pion, plateau.plateau_tab[i][3].pion, plateau.plateau_tab[i][4].pion, plateau.plateau_tab[i][5].pion, plateau.plateau_tab[i][6].pion, plateau.plateau_tab[i][7].pion);
+        printf("%d | %c %c %c %c %c %c %c %c|\n", i + 1, plateau.plateau_tab[0][i].pion, plateau.plateau_tab[1][i].pion, plateau.plateau_tab[2][i].pion, plateau.plateau_tab[3][i].pion, plateau.plateau_tab[4][i].pion, plateau.plateau_tab[5][i].pion, plateau.plateau_tab[6][i].pion, plateau.plateau_tab[7][i].pion);
     }
     printf("   ---------------- \n");
     printf("    A B C D E F G H\n");
@@ -54,7 +54,7 @@ game jouer_coup(game plateau, case_ coup_act)
         printf("La case n'existe pas, rejouez\n");
         return plateau;
     }
-    char valeur_case = plateau.plateau_tab[coordY][coordX].pion;
+    char valeur_case = plateau.plateau_tab[coordX][coordY].pion;
     if (valeur_case != '.')
     {
         printf("Case non vide, rejouez\n");
@@ -130,27 +130,25 @@ game jouer_coup(game plateau, case_ coup_act)
                 coordY += deplacement_y;
                 taille_prise++;
 
-            } while (case_existe(coordX+deplacement_x, coordY+deplacement_y) && plateau.plateau_tab[coordY][coordX].pion == adversaire_c);
+            } while (case_existe(coordX+deplacement_x, coordY+deplacement_y) && plateau.plateau_tab[coordX][coordY].pion == adversaire_c);
 
-            if(taille_prise>1 && plateau.plateau_tab[coordY][coordX].pion == coup_act.pion){
+            if(taille_prise>1 && plateau.plateau_tab[coordX][coordY].pion == coup_act.pion){
 
                 isValid = 1;
                 
                 
                 do
                 {
-                    //printf("coordX : %d coordY : %d dir %d\n", coordX, coordY, dir_act);
                     coordX -= deplacement_x;
                     coordY -= deplacement_y;
-                    plateau.plateau_tab[coordY][coordX].pion = coup_act.pion;
-                } while (coordX != coup_act.coordX && coordY != coup_act.coordY);
-                //plateau.plateau_tab[coordX][coordY].pion = coup_act.pion; ???
+                    plateau.plateau_tab[coordX][coordY].pion = coup_act.pion;
+                } while (coordX != coup_act.coordX || coordY != coup_act.coordY);
                 
             }
         }
     }
     if (isValid){
-        plateau.plateau_tab[coup_act.coordY][coup_act.coordX].pion = coup_act.pion;
+        plateau.plateau_tab[coup_act.coordX][coup_act.coordY].pion = coup_act.pion;
         plateau.current_player = !joueur_;
     } else {
         printf("Votre coup ne permet pas de prendre de pièces, rejouez\n");
