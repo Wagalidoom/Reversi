@@ -51,3 +51,5 @@ int case_existe(int x, int y);
 char check_direction(game plateau, case_ case_actuelle, direction dir, int isValid);
 
 case_ coup_ordinateur(game plateau);
+
+case_ entrer_coup();
