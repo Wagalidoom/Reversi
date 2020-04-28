@@ -31,8 +31,8 @@ case_ entrer_coup()
 	} while (((scanf("%d%c", &y, &c)!=2 || c!='\n') && clean_stdin()) || y < 1 || y > 8);
 
 
-	//coup.coordX = x - 1;
-	//coup.coordY = y - 1;
+	coup.coordX = x - 1;
+	coup.coordY = y - 1;
 	printf("%d %d\n", x, y);
 	return coup;
 }
@@ -48,6 +48,7 @@ int main()
 	do
 	{
 		printf("Quelle couleur voulez vous prendre ? (NOIR commence)\n1 : NOIR		2 : BLANC\n");
+		
 	} while (((scanf("%d%c", &n_b, &c)!=2 || c!='\n') && clean_stdin()) || n_b != 1 && n_b != 2);
 
 	afficher_plateau(jeu);
@@ -57,25 +58,22 @@ int main()
 		do
 		{
 			player_temp = jeu.current_player;
-			if (jeu.current_player = NOIR)
-			{
-				coup = entrer_coup();
-			}
-			else if (jeu.current_player = BLANC)
+			if (jeu.current_player == NOIR)
 			{
 				coup = entrer_coup();
 			}
 			else
 			{
-				return 1;
+				coup = entrer_coup();
 			}
+			printf("%d %d\n", coup.coordX, coup.coordY);
 			
 
 			jeu = jouer_coup(jeu, coup);
-			//if (player_temp = !jeu.current_player)
-			//{
+			if (player_temp == !jeu.current_player)
+			{
 				afficher_plateau(jeu);
-			//}
+			}
 
 		} while (!position_gagnante(jeu));
 	}
@@ -85,21 +83,17 @@ int main()
 		do
 		{
 			player_temp = jeu.current_player;
-			if (jeu.current_player = BLANC)
-			{
-				coup = entrer_coup();
-			}
-			else if (jeu.current_player = NOIR)
+			if (jeu.current_player == BLANC)
 			{
 				coup = entrer_coup();
 			}
 			else
 			{
-				return 1;
+				coup = entrer_coup();
 			}
 
 			jeu = jouer_coup(jeu, coup);
-			if (player_temp = !jeu.current_player)
+			if (player_temp == !jeu.current_player)
 			{
 				afficher_plateau(jeu);
 			}
