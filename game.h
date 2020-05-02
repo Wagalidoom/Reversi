@@ -20,6 +20,13 @@ typedef enum
 
 typedef struct
 {
+    int X;
+    int Y;
+} vector;
+
+
+typedef struct
+{
     char pion;
     int coordX;
     int coordY;
@@ -42,7 +49,14 @@ game init_plateau();
 // afficher plateau
 void afficher_plateau(game plateau);
 
+// position gagnante sur plateau actuel
 int position_gagnante(game plateau);
+
+// si oui, renvoie la taille du coup
+int coup_valide(case_ coup, direction dir, game plateau);
+
+// convertir une direction en un vecteur
+vector direction_to_vector(direction dir);
 
 game jouer_coup(game plateau, case_ coup);
 

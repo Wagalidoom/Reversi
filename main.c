@@ -33,7 +33,7 @@ case_ entrer_coup()
 
 	coup.coordX = x - 1;
 	coup.coordY = y - 1;
-	printf("%d %d\n", x, y);
+	//printf("%d %d\n", x, y);
 	return coup;
 }
 
@@ -66,7 +66,7 @@ int main()
 			{
 				coup = entrer_coup();
 			}
-			printf("%d %d\n", coup.coordX, coup.coordY);
+			// printf("%d %d\n", coup.coordX, coup.coordY);
 			
 
 			jeu = jouer_coup(jeu, coup);
